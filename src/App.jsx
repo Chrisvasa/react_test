@@ -1,20 +1,24 @@
-import * as React from 'react';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import Hero from "./hero";
 
-const welcome = {
-  greeting: 'Hey',
-  title: 'React',
-}
+const MainContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: lightskyblue;
+`;
 
 function App() {
-return (
-<div>
-  <title>{welcome.title}</title>
-  <h1>
-  {welcome.greeting} {welcome.title}
-  </h1>
-<label htmlFor="search">Search: </label>
-<input id="search" type="text" />
-</div>
-);
+  return (
+    <MainContainer>
+      <h1>test</h1>
+      <p>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam explicabo, ipsam quidem cupiditate sint autem non. Fugiat, ipsa.
+        Vero consequuntur vitae odit culpa fuga error.
+      </p>
+      <Hero />
+    </MainContainer>
+  );
 }
 export default App;
