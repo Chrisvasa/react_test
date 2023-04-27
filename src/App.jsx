@@ -8,7 +8,9 @@ function App() {
       <BannerContainer>
         <h1>🔥🔥XTREME API TESTER🔥🔥</h1>
       </BannerContainer>
-      <Input type="text" id="genre" placeholder={"Enter your search here.."} />
+      <SearchContainer>
+        <Search />
+      </SearchContainer>
       <ResultContainer>
         <p>
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente, eum! Nihil, accusantium magnam. Fugit distinctio voluptatem in
@@ -19,11 +21,58 @@ function App() {
           explicabo sit sapiente mollitia corporis adipisci. Quidem totam dolorum voluptatum accusantium fuga beatae sequi. Deserunt
           provident tempora labore?
         </p>
+        <Counter />
       </ResultContainer>
       <Hero />
     </MainContainer>
   );
 }
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  function handleIncrement() {
+    setCount(count + 1);
+  }
+  function handleDecrement() {
+    setCount(count - 1);
+  }
+
+  return (
+    <div>
+      <Button onClick={handleDecrement}>-</Button>
+      <p>{count}</p>
+      <Button onClick={handleIncrement}>+</Button>
+    </div>
+  );
+};
+
+const Search = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  // Task here
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  return (
+    <div>
+      <Input type="text" id="search" onChange={handleChange} placeholder={"Enter your search here.."} />
+      <p>
+        Searching for <strong>{searchTerm}</strong>
+      </p>
+    </div>
+  );
+};
+
+const Button = styled.button`
+  height: 40px;
+  width: 30px;
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const BannerContainer = styled.header`
   display: flex;
@@ -45,6 +94,7 @@ const MainContainer = styled.main`
 
 const ResultContainer = styled.div`
   display: flex;
+  flex-direction: column;
   width: 80vw;
   height: 100%;
   align-self: center;
