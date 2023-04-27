@@ -3,24 +3,26 @@ import styled from "styled-components";
 import Hero from "./hero";
 
 function App() {
+  const [toxt, setToxt] = useState("blblbl");
+
+  function handleClick(prop) {
+    setToxt(toxt + prop);
+  }
+
+  function clearClick() {
+    setToxt("");
+  }
+
   return (
     <MainContainer>
       <BannerContainer>
         <h1>🔥🔥XTREME API TESTER🔥🔥</h1>
       </BannerContainer>
       <SearchContainer>
-        <Search />
+        <Search handleClick={handleClick} clearClick={clearClick} />
       </SearchContainer>
       <ResultContainer>
-        <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente, eum! Nihil, accusantium magnam. Fugit distinctio voluptatem in
-          consequatur adipisci libero voluptatibus saepe debitis provident amet. Pariatur eos hic debitis doloribus quod commodi blanditiis
-          dolores perferendis molestias consectetur deserunt non accusantium fugiat nostrum impedit aliquid, ducimus id temporibus ipsa.
-          Illo incidunt libero quas, ut quisquam impedit quasi et aspernatur nihil inventore totam odit, ratione eligendi similique nobis
-          atque ipsum! Velit, ducimus. Consectetur rem eligendi facere molestias culpa, deserunt illum quaerat, temporibus maiores, omnis
-          explicabo sit sapiente mollitia corporis adipisci. Quidem totam dolorum voluptatum accusantium fuga beatae sequi. Deserunt
-          provident tempora labore?
-        </p>
+        <Result text={toxt} />
         <Counter />
       </ResultContainer>
       <Hero />
@@ -47,7 +49,7 @@ const Counter = () => {
   );
 };
 
-const Search = () => {
+const Search = ({ handleClick, clearClick }) => {
   const [searchTerm, setSearchTerm] = useState("");
   // Task here
   const handleChange = (event) => {
@@ -57,16 +59,26 @@ const Search = () => {
   return (
     <div>
       <Input type="text" id="search" onChange={handleChange} placeholder={"Enter your search here.."} />
-      <p>
-        Searching for <strong>{searchTerm}</strong>
-      </p>
+      {/* <p>
+        Searching for: <strong>{searchTerm}</strong>
+      </p> */}
+      <Button onClick={() => handleClick(searchTerm)}>Submit</Button>
+      <Button onClick={() => clearClick()}>Clear</Button>
+    </div>
+  );
+};
+
+const Result = ({ text }) => {
+  return (
+    <div>
+      <p>{text}</p>
     </div>
   );
 };
 
 const Button = styled.button`
   height: 40px;
-  width: 30px;
+  width: 6rem;
 `;
 
 const SearchContainer = styled.div`
