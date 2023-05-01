@@ -1,107 +1,131 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Hero from "./hero";
+import api from "./api";
+import axios from "axios";
 
 function App() {
-  const [toxt, setToxt] = useState("blblbl");
+  const [data, setData] = useState([]);
 
-  function handleClick(prop) {
-    setToxt(toxt + prop);
+  const handleClick = async () => {
+    axios.get(`https://jsonplaceholder.typicode.com/users`)
+    .then((response) => response.data.map((user) => console.log(user)));
   }
 
-  function clearClick() {
-    setToxt("");
-  }
+  // const fetchUserData = async () => {
+  //   axios.get(`https://jsonplaceholder.typicode.com/users`)
+  //   .then((response) => response.data.map((user) => setData({
+  //       id: user.id,
+  //       Name: user.Name,
+  //       UserName: user.username,
+  //       Email: user.email
+  // })));
+  // };
 
   return (
     <MainContainer>
       <BannerContainer>
         <h1>🔥🔥XTREME API TESTER🔥🔥</h1>
       </BannerContainer>
-      <SearchContainer>
-        <Search handleClick={handleClick} clearClick={clearClick} />
-      </SearchContainer>
+      <Search handleClick={handleClick}/>
       <ResultContainer>
-        <Result text={toxt} />
-        <Counter />
+        <Result data={data} />
       </ResultContainer>
       <Hero />
     </MainContainer>
   );
 }
 
-const Counter = () => {
-  const [count, setCount] = useState(0);
-
-  function handleIncrement() {
-    setCount(count + 1);
-  }
-  function handleDecrement() {
-    setCount(count - 1);
-  }
-
-  return (
-    <div>
-      <Button onClick={handleDecrement}>-</Button>
-      <p>{count}</p>
-      <Button onClick={handleIncrement}>+</Button>
-    </div>
-  );
-};
-
-const Search = ({ handleClick, clearClick }) => {
+const Search = ({ handleClick}) => {
   const [searchTerm, setSearchTerm] = useState("");
   // Task here
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
+
   return (
-    <div>
-      <Input type="text" id="search" onChange={handleChange} placeholder={"Enter your search here.."} />
+    <SearchContainer>
+      <Input type="text" id="search" onChange={handleChange} placeholder={"Type your message here.."} />
       {/* <p>
         Searching for: <strong>{searchTerm}</strong>
       </p> */}
-      <Button onClick={() => handleClick(searchTerm)}>Submit</Button>
-      <Button onClick={() => clearClick()}>Clear</Button>
-    </div>
+      <Button onClick={() => handleClick(searchTerm)}>Fetch Data</Button>
+    </SearchContainer>
   );
 };
 
-const Result = ({ text }) => {
+const Result = ({ id, Name, UserName, Email }) => {
   return (
     <div>
-      <p>{text}</p>
+      <p>ID: {id}</p>
+      <p>Name: {Name}</p>
+      <p>UserName: {UserName}</p>
+      <p>Email: {Email}</p>
     </div>
   );
 };
 
 const Button = styled.button`
-  height: 40px;
-  width: 6rem;
+  height: 3rem;
+  width: 29rem;
+  background: #ff4742;
+  border: 1px solid #ff4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 16px;
+  min-height: 40px;
+  outline: 0;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  &:hover,
+  :active {
+    background-color: initial;
+    background-position: 0 0;
+    color: #ff4742;
+  }
+  &:active {
+    opacity: 0.5;
+  }
 `;
 
 const SearchContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const BannerContainer = styled.header`
   display: flex;
   flex-direction: column;
-  background: black;
   justify-content: center;
   align-items: center;
+  width: 100vw;
   height: 10vh;
   font-family: "Courier New", Courier, monospace;
   color: darkgreen;
+  background: #00090c;
 `;
 
 const MainContainer = styled.main`
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100vh;
-  background: #bbb;
+  background: #e7f5fa;
 `;
 
 const ResultContainer = styled.div`
@@ -118,6 +142,9 @@ const ResultContainer = styled.div`
 const Input = styled.input`
   &:hover {
     background: grey;
+  }
+  &:focus {
+    outline: none;
   }
   height: 40px;
   display: flex;
