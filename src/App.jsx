@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Hero from "./hero";
-import api from "./api";
 import axios from "axios";
+
+import Hero from "./hero";
 
 function App() {
   const [data, setData] = useState([]);
 
   const handleClick = async () => {
-    axios.get(`https://jsonplaceholder.typicode.com/users`)
-    .then((response) => response.data.map((user) => console.log(user)));
-  }
+    const response = await axios.get(
+      `https://jsonplaceholder.typicode.com/users`
+    );
+    const users = [
+      response.data.map((user) => {
+        return {
+          id: user.id,
+          Fname: user.name,
+          UserName: user.username,
+          Email: user.email,
+        };
+      }),
+    ];
+    console.log(data);
+    setData(users);
+  };
 
   // const fetchUserData = async () => {
   //   axios.get(`https://jsonplaceholder.typicode.com/users`)
@@ -27,7 +40,7 @@ function App() {
       <BannerContainer>
         <h1>🔥🔥XTREME API TESTER🔥🔥</h1>
       </BannerContainer>
-      <Search handleClick={handleClick}/>
+      <Search handleClick={handleClick} />
       <ResultContainer>
         <Result data={data} />
       </ResultContainer>
@@ -36,17 +49,21 @@ function App() {
   );
 }
 
-const Search = ({ handleClick}) => {
+const Search = ({ handleClick }) => {
   const [searchTerm, setSearchTerm] = useState("");
   // Task here
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-
   return (
     <SearchContainer>
-      <Input type="text" id="search" onChange={handleChange} placeholder={"Type your message here.."} />
+      <Input
+        type="text"
+        id="search"
+        onChange={handleChange}
+        placeholder={"Type your message here.."}
+      />
       {/* <p>
         Searching for: <strong>{searchTerm}</strong>
       </p> */}
@@ -55,16 +72,37 @@ const Search = ({ handleClick}) => {
   );
 };
 
-const Result = ({ id, Name, UserName, Email }) => {
-  return (
-    <div>
-      <p>ID: {id}</p>
-      <p>Name: {Name}</p>
-      <p>UserName: {UserName}</p>
-      <p>Email: {Email}</p>
-    </div>
-  );
+const Result = ({ data }) => {
+  return data.map((x) => {
+    {
+      return x.map((y) => {
+        console.log(y);
+        return (
+          <Div>
+            <p>ID: {y.id}</p>
+            <p>Name: {y.Fname}</p>
+            <p>UserName: {y.UserName}</p>
+            <p>Email: {y.Email}</p>
+          </Div>
+        );
+      });
+    }
+  });
 };
+
+const Div = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 2px 4px,
+      rgba(0, 0, 0, 0.5) 0px 7px 13px -3px,
+      rgba(0, 0, 0, 0.4) 0px -3px 0px inset;
+  }
+`;
 
 const Button = styled.button`
   height: 3rem;
@@ -136,7 +174,8 @@ const ResultContainer = styled.div`
   align-self: center;
   color: darkgreen;
   border-radius: 4px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px;
 `;
 
 const Input = styled.input`
@@ -158,7 +197,8 @@ const Input = styled.input`
   font-size: 26px;
   font-weight: 500;
   padding: 0 20px 0 40px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+    rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 `;
 
 export default App;
