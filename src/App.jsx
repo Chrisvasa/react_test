@@ -6,6 +6,11 @@ import Hero from "./hero";
 
 function App() {
   const [data, setData] = useState([]);
+  const [test, setTest] = useState("");
+
+  const testChange = (event) => {
+    setTest(event.target.value);
+  };
 
   const handleClick = async () => {
     const response = await axios.get(
@@ -40,20 +45,21 @@ function App() {
       <BannerContainer>
         <h1>🔥🔥XTREME API TESTER🔥🔥</h1>
       </BannerContainer>
-      <Search handleClick={handleClick} />
+      <Search handleClick={handleClick} testChange={testChange} />
       <ResultContainer>
-        <Result data={data} />
+        <Result data={data} test={test} />
       </ResultContainer>
       <Hero />
     </MainContainer>
   );
 }
 
-const Search = ({ handleClick }) => {
+const Search = ({ handleClick, testChange }) => {
   const [searchTerm, setSearchTerm] = useState("");
   // Task here
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
+    testChange(event);
   };
 
   return (
@@ -72,20 +78,21 @@ const Search = ({ handleClick }) => {
   );
 };
 
-const Result = ({ data }) => {
+const Result = ({ data, test }) => {
   return data.map((x) => {
     {
-      return x.map((y) => {
-        console.log(y);
-        return (
-          <Div>
-            <p>ID: {y.id}</p>
-            <p>Name: {y.Fname}</p>
-            <p>UserName: {y.UserName}</p>
-            <p>Email: {y.Email}</p>
-          </Div>
-        );
-      });
+      return x
+        .filter((z) => z.Fname.includes(test))
+        .map((y) => {
+          return (
+            <Div>
+              <p>ID: {y.id}</p>
+              <p>Name: {y.Fname}</p>
+              <p>UserName: {y.UserName}</p>
+              <p>Email: {y.Email}</p>
+            </Div>
+          );
+        });
     }
   });
 };
