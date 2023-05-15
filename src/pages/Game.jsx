@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function Game() {
     const [game, setGame] = useState(false);
+
     return (
         <GameContainer>
             <GameBoard>
