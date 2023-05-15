@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 
 import Hero from "./hero";
+import { Outlet } from "react-router-dom";
 
 function App() {
   const [data, setData] = useState([]);
@@ -42,14 +43,13 @@ function App() {
 
   return (
     <MainContainer>
-      <BannerContainer>
-        <h1>🔥🔥XTREME API TESTER🔥🔥</h1>
-      </BannerContainer>
       <Search handleClick={handleClick} testChange={testChange} />
       <ResultContainer>
         <Result data={data} test={test} />
       </ResultContainer>
-      <Hero />
+      <div>
+        <Outlet />
+      </div>
     </MainContainer>
   );
 }
@@ -82,7 +82,7 @@ const Result = ({ data, test }) => {
   return data.map((x) => {
     {
       return x
-        .filter((z) => z.Fname.includes(test))
+        .filter((z) => z.Fname.toLowerCase().includes(test.toLowerCase()))
         .map((y) => {
           return (
             <Div>
@@ -151,18 +151,6 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const BannerContainer = styled.header`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 10vh;
-  font-family: "Courier New", Courier, monospace;
-  color: darkgreen;
-  background: #00090c;
 `;
 
 const MainContainer = styled.main`
