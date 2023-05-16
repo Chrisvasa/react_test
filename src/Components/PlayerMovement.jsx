@@ -7,6 +7,8 @@ export const PlayerMovement = () => {
     const [length, setLength] = useState(10);
     const [height, setHeight] = useState(10);
 
+
+
     const handleKeyPress = (e) => {
         if (e.key == 'ArrowLeft') {
             setX(x => x - 1);
@@ -32,12 +34,9 @@ export const PlayerMovement = () => {
             setHeight(height => height + length);
             setLength(temp);
         }
-        if (y % 2 == 0 && x % 2 == 0) {
+        if (y % 2 == 0) {
             if (length > height) {
                 setLength(length => length + 10);
-            }
-            else {
-                setHeight(height => height + 10);
             }
         }
     }
@@ -51,11 +50,26 @@ export const PlayerMovement = () => {
     )
 }
 
-const Player = styled.div`
-    width: ${({ length }) => length + 'px'};
-    height: ${({ height }) => height + 'px'};
-    left: ${({ x }) => x + 'rem'};
-    top: ${({ y }) => y + 'rem'};
-    background-color: black;
+const Player = styled.div.attrs(props => ({
+    style: {
+        background: props.background,
+        width: props.length,
+        height: props.height,
+        left: props.x + 'rem',
+        top: props.y + 'rem',
+    },
+}))
+    `background-color: black;
     position: relative;
 `;
+// width: ${({ length }) => length + 'px'};
+// height: ${({ height }) => height + 'px'};
+
+// .attrs(({ x, y, length, height }) => ({
+//     style: {
+//         width: ({ length }) => length + 'px',
+//         height: ({ height }) => height + 'px',
+//         left: ({ x }) => x + 'rem',
+//         top: ({ y }) => y + 'rem'
+//     }
+// }))`
