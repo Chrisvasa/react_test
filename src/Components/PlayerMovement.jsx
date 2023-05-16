@@ -7,32 +7,31 @@ export const PlayerMovement = () => {
     const [length, setLength] = useState(10);
     const [height, setHeight] = useState(10);
 
-
-
+    const MINUTE_MS = 1000;
+    let key;
     const handleKeyPress = (e) => {
+        const interval = setInterval(() => {
+            if (key != e.key) {
+                clearInterval(interval);
+            }
+            move(e);
+        }, MINUTE_MS)
+        key = e.key
+        return () => clearInterval(interval);
+    }
+
+    const move = (e) => {
         if (e.key == 'ArrowLeft') {
             setX(x => x - 1);
-            let temp = length;
-            setLength(length => length + height);
-            setHeight(temp);
         }
         else if (e.key == 'ArrowRight') {
-            setX(x => x + 1); // Position
-            let temp = length;
-            setLength(length => length + height);
-            setHeight(temp);
+            setX(x => x + 1);
         }
         else if (e.key == 'ArrowUp') {
             setY(y => y - 1);
-            let temp = height;
-            setHeight(height => height + length);
-            setLength(temp);
         }
         else if (e.key == 'ArrowDown') {
             setY(y => y + 1);
-            let temp = height;
-            setHeight(height => height + length);
-            setLength(temp);
         }
         if (y % 2 == 0) {
             if (length > height) {
