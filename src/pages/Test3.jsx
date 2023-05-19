@@ -10,8 +10,6 @@ const Test3 = () => {
     );
 }
 
-
-
 const ContentContainer = styled.div`
     display: flex;
     flex-direction: column;
