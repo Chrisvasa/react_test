@@ -1,4 +1,5 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useEffect } from 'react';
 import styled from "styled-components";
 import Hero from "../hero";
 import App from "../App";
@@ -13,7 +14,7 @@ export default function Root() {
           <ButtonContainer>
             <NavLink to="/">Button 1</NavLink>
             <NavLink to="games">Button 2</NavLink>
-            <NavLink>Button 3</NavLink>
+            <NavLink to="test">Button 3</NavLink>
           </ButtonContainer>
         </NavContainer>
       </Header>
