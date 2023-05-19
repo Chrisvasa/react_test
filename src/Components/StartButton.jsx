@@ -1,11 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export const StartButton = () => {
+export const StartButton = ({ handleClick }) => {
     const [game, setGame] = useState(false);
 
     const gameStart = () => {
         setGame(prevGame => !prevGame);
+        handleClick(game); // Sent from Game.jsx and handles if game is on or not
+        console.log(game);
 
         if (game) {
             console.log("Button was clicked. GAME ON!")

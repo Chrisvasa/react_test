@@ -7,25 +7,31 @@ export const PlayerMovement = () => {
     const [length, setLength] = useState(10);
     const [height, setHeight] = useState(10);
 
-    const MINUTE_MS = 1000;
+    const MINUTE_MS = 500;
     let key;
     const handleKeyPress = (e) => {
-        const interval = setInterval(() => {
-            if (key != e.key) {
-                clearInterval(interval);
-            }
-            move(e);
-        }, MINUTE_MS)
-        key = e.key
-        return () => clearInterval(interval);
+        // Tries to fix the issue of pressing a key more than once
+        if (key == e.key) {
+            console.log("Key was already pressed.")
+        }
+        else {
+            const interval = setInterval(() => {
+                if (key != e.key) {
+                    clearInterval(interval);
+                }
+                handleMovement(e);
+            }, MINUTE_MS)
+            key = e.key
+            return () => clearInterval(interval);
+        }
     }
 
-    const move = (e) => {
+    const handleMovement = (e) => {
         if (e.key == 'ArrowLeft') {
             setX(x => x - 1);
         }
         else if (e.key == 'ArrowRight') {
-            setX(x => x + 1);
+            setX(prev => prev + 1);
         }
         else if (e.key == 'ArrowUp') {
             setY(y => y - 1);
@@ -43,6 +49,9 @@ export const PlayerMovement = () => {
     useEffect(() => {
         document.addEventListener("keydown", handleKeyPress);
     }, [])
+    useEffect(() => {
+        console.log("test");
+    }, [x])
 
     return (
         <Player onKeyPress={handleKeyPress} x={x} y={y} length={length} height={height} />
@@ -57,8 +66,8 @@ const Player = styled.div.attrs(props => ({
         left: props.x + 'rem',
         top: props.y + 'rem',
     },
-}))
-    `background-color: black;
+}))`
+    background-color: black;
     position: relative;
 `;
 // width: ${({ length }) => length + 'px'};

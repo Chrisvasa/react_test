@@ -7,12 +7,18 @@ import { useEffect, useState } from "react";
 export default function Game() {
     const [game, setGame] = useState(false);
 
+    // Handles the rendering of the Snake gameplay
+    // Sent to StartButton class which handles the toggle
+    const handleClick = () => {
+        setGame(prevGame => !prevGame);
+    }
+
     return (
         <GameContainer>
             <GameBoard>
-                <PlayerMovement />
+                {game ? null : <PlayerMovement />}
             </GameBoard>
-            <StartButton onClick={() => setGame(prevGame => !prevGame)} />
+            <StartButton handleClick={handleClick} />
         </GameContainer>
     );
 }
