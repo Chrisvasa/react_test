@@ -12,6 +12,7 @@ export default function Game() {
     const handleClick = () => {
         setGame(prevGame => !prevGame);
         spawnFood();
+        console.log("FOOD----", left, top);
     }
 
 
@@ -21,8 +22,8 @@ export default function Game() {
     const [left, setLeft] = useState(10);
     const spawnFood = () => {
         // A random number between the valid parameters, that then gets rounded to the nearest 10
-        setTop(Math.round(Math.floor(Math.random() * (460 - 10 + 1) + 10) / 10) * 10);
-        setLeft(Math.round(Math.floor(Math.random() * (620 - 10 + 1) + 10) / 10) * 10);
+        setTop(Math.round(Math.floor(Math.random() * (460 - 10) + 10) / 10) * 10);
+        setLeft(Math.round(Math.floor(Math.random() * (620 - 10) + 10) / 10) * 10);
     }
 
     const [pos, setPos] = useState({ left: 0, top: 0 });
@@ -32,16 +33,22 @@ export default function Game() {
             top: y,
         });
     }
-
+    // Checks if currently colliding with food or not
+    // Spawns food in a new location and adds one to the score if collision occurs
     const checkPos = () => {
-        if (left == pos.left && top == pos.top) {
+        if (pos.left == left && pos.top == top) {
             spawnFood();
+            setScore(prevScore => prevScore + 1);
         }
     }
 
     useEffect(() => {
         checkPos();
+        console.log(pos.left, pos.top)
     }, [pos]);
+
+    // TEMPORARY SCORE
+    const [score, setScore] = useState(0);
 
     return (
         <GameContainer>
@@ -49,6 +56,7 @@ export default function Game() {
                 {game ? <Food top={top} left={left} /> : null}
                 {game ? <PlayerMovement handleChange={handleChange} /> : null}
             </GameBoard>
+            <p>Score: {score}</p>
             <StartButton handleClick={handleClick} />
         </GameContainer>
     );
