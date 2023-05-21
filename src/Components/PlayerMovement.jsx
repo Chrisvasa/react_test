@@ -39,11 +39,11 @@ export const PlayerMovement = () => {
         else if (e.key == 'ArrowDown') {
             setY(y => y + 10);
         }
-        if (y % 2 == 0) {
-            if (length > height) {
-                setLength(length => length + 10);
-            }
-        }
+        // if (y % 2 == 0) {
+        //     if (length > height) {
+        //         setLength(length => length + 10);
+        //     }
+        // }
     }
 
     useEffect(() => {

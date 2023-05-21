@@ -20,14 +20,15 @@ export default function Game() {
     const [top, setTop] = useState(10);
     const [left, setLeft] = useState(10);
     const spawnFood = () => {
-        setTop(Math.floor(Math.random() * (460 - 10 + 1) + 10));
-        setLeft(Math.floor(Math.random() * (620 - 10 + 1) + 10));
+        // A random number between the valid parameters, that then gets rounded to the nearest 10
+        setTop(Math.round(Math.floor(Math.random() * (460 - 10 + 1) + 10) / 10) * 10);
+        setLeft(Math.round(Math.floor(Math.random() * (620 - 10 + 1) + 10) / 10) * 10);
     }
 
     return (
         <GameContainer>
             <GameBoard>
-                <Food top={top} left={left} />
+                {game ? <Food top={top} left={left} /> : null}
                 {game ? <PlayerMovement /> : null}
             </GameBoard>
             <StartButton handleClick={handleClick} />
