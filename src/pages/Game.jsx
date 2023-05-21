@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { StartButton } from "../Components/StartButton";
 import { PlayerMovement } from "../Components/PlayerMovement";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 
 export default function Game() {
@@ -25,11 +25,29 @@ export default function Game() {
         setLeft(Math.round(Math.floor(Math.random() * (620 - 10 + 1) + 10) / 10) * 10);
     }
 
+    const [pos, setPos] = useState({ left: 0, top: 0 });
+    const handleChange = (x, y) => {
+        setPos({
+            left: x,
+            top: y,
+        });
+    }
+
+    const checkPos = () => {
+        if (left == pos.left && top == pos.top) {
+            spawnFood();
+        }
+    }
+
+    useEffect(() => {
+        checkPos();
+    }, [pos]);
+
     return (
         <GameContainer>
             <GameBoard>
                 {game ? <Food top={top} left={left} /> : null}
-                {game ? <PlayerMovement /> : null}
+                {game ? <PlayerMovement handleChange={handleChange} /> : null}
             </GameBoard>
             <StartButton handleClick={handleClick} />
         </GameContainer>

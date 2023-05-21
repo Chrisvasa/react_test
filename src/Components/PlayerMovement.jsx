@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-export const PlayerMovement = () => {
+export const PlayerMovement = ({ handleChange }) => {
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [length, setLength] = useState(10);
@@ -45,6 +45,11 @@ export const PlayerMovement = () => {
         //     }
         // }
     }
+
+    useEffect(() => {
+        handleChange(x, y);
+    }, [x, y])
+
 
     useEffect(() => {
         document.addEventListener("keydown", handleKeyPress);
