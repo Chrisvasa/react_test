@@ -11,17 +11,42 @@ export default function Game() {
     // Sent to StartButton class which handles the toggle
     const handleClick = () => {
         setGame(prevGame => !prevGame);
+        spawnFood();
+    }
+
+
+    // Min top: 10px || Max top: 460px
+    // Min left: 10px || Max left: 620px
+    const [top, setTop] = useState(10);
+    const [left, setLeft] = useState(10);
+    const spawnFood = () => {
+        setTop(Math.floor(Math.random() * (460 - 10 + 1) + 10));
+        setLeft(Math.floor(Math.random() * (620 - 10 + 1) + 10));
     }
 
     return (
         <GameContainer>
             <GameBoard>
-                {game ? null : <PlayerMovement />}
+                <Food top={top} left={left} />
+                {game ? <PlayerMovement /> : null}
             </GameBoard>
             <StartButton handleClick={handleClick} />
         </GameContainer>
     );
 }
+
+const Food = styled.div.attrs(props => ({
+    style: {
+        background: props.background,
+        left: props.left + 'px',
+        top: props.top + 'px',
+    },
+}))`
+    position: relative;
+    height: 10px;
+    width: 10px;
+    background: yellow;
+`;
 
 const GameBoard = styled.div`
     background-color: gray;

@@ -7,7 +7,7 @@ export const PlayerMovement = () => {
     const [length, setLength] = useState(10);
     const [height, setHeight] = useState(10);
 
-    const MINUTE_MS = 500;
+    const MINUTE_MS = 350;
     let key;
     const handleKeyPress = (e) => {
         // Tries to fix the issue of pressing a key more than once
@@ -28,16 +28,16 @@ export const PlayerMovement = () => {
 
     const handleMovement = (e) => {
         if (e.key == 'ArrowLeft') {
-            setX(x => x - 1);
+            setX(x => x - 10);
         }
         else if (e.key == 'ArrowRight') {
-            setX(prev => prev + 1);
+            setX(prev => prev + 10);
         }
         else if (e.key == 'ArrowUp') {
-            setY(y => y - 1);
+            setY(y => y - 10);
         }
         else if (e.key == 'ArrowDown') {
-            setY(y => y + 1);
+            setY(y => y + 10);
         }
         if (y % 2 == 0) {
             if (length > height) {
@@ -49,9 +49,6 @@ export const PlayerMovement = () => {
     useEffect(() => {
         document.addEventListener("keydown", handleKeyPress);
     }, [])
-    useEffect(() => {
-        console.log("test");
-    }, [x])
 
     return (
         <Player onKeyPress={handleKeyPress} x={x} y={y} length={length} height={height} />
@@ -63,21 +60,10 @@ const Player = styled.div.attrs(props => ({
         background: props.background,
         width: props.length,
         height: props.height,
-        left: props.x + 'rem',
-        top: props.y + 'rem',
+        left: props.x + 'px',
+        top: props.y + 'px',
     },
 }))`
     background-color: black;
     position: relative;
 `;
-// width: ${({ length }) => length + 'px'};
-// height: ${({ height }) => height + 'px'};
-
-// .attrs(({ x, y, length, height }) => ({
-//     style: {
-//         width: ({ length }) => length + 'px',
-//         height: ({ height }) => height + 'px',
-//         left: ({ x }) => x + 'rem',
-//         top: ({ y }) => y + 'rem'
-//     }
-// }))`

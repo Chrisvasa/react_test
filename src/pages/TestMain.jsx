@@ -3,8 +3,8 @@ import { NavLink, useLocation } from 'react-router-dom';
 import styled from "styled-components";
 
 //Pages
-import Test from './Test';
-import Test2 from './Test2';
+import Test from '../App';
+import Test2 from './Game';
 import Test3 from './Test3';
 
 // The different pages
