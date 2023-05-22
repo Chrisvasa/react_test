@@ -7,7 +7,7 @@ export const PlayerMovement = ({ handleChange }) => {
     const [length, setLength] = useState(10);
     const [height, setHeight] = useState(10);
 
-    const MINUTE_MS = 350;
+    const MINUTE_MS = 10;
     let key;
     const handleKeyPress = (e) => {
         // Tries to fix the issue of pressing a key more than once
@@ -28,16 +28,16 @@ export const PlayerMovement = ({ handleChange }) => {
 
     const handleMovement = (e) => {
         if (e.key == 'ArrowLeft') {
-            setX(x => x - 10);
+            setX(x => x - 1);
         }
         else if (e.key == 'ArrowRight') {
-            setX(prev => prev + 10);
+            setX(prev => prev + 1);
         }
         else if (e.key == 'ArrowUp') {
-            setY(y => y - 10);
+            setY(y => y - 1);
         }
         else if (e.key == 'ArrowDown') {
-            setY(y => y + 10);
+            setY(y => y + 1);
         }
         // if (y % 2 == 0) {
         //     if (length > height) {

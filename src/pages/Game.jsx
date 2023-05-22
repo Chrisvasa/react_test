@@ -1,20 +1,21 @@
 import styled from "styled-components";
 import { StartButton } from "../Components/StartButton";
 import { PlayerMovement } from "../Components/PlayerMovement";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Game() {
+    // TEMPORARY SCORE
+    const [score, setScore] = useState(0);
     const [game, setGame] = useState(false);
 
     // Handles the rendering of the Snake gameplay
     // Sent to StartButton class which handles the toggle
     const handleClick = () => {
         setGame(prevGame => !prevGame);
+        setScore(0);
         spawnFood();
-        console.log("FOOD----", left, top);
     }
-
 
     // Min top: 10px || Max top: 460px
     // Min left: 10px || Max left: 620px
@@ -28,15 +29,25 @@ export default function Game() {
 
     const [pos, setPos] = useState({ left: 0, top: 0 });
     const handleChange = (x, y) => {
-        setPos({
-            left: x,
-            top: y,
-        });
+        if (x >= 0 && x <= 640 && y >= 0 && y <= 480) {
+            setPos({
+                left: x,
+                top: y,
+            });
+        }
+        else (
+            handleClick(),
+            console.log("You lose")
+        )
+    }
+
+    const between = (value, minVal, maxVal) => {
+        return value >= minVal && value <= maxVal;
     }
     // Checks if currently colliding with food or not
     // Spawns food in a new location and adds one to the score if collision occurs
     const checkPos = () => {
-        if (pos.left == left && pos.top == top) {
+        if (between(pos.left, left - 10, left + 10) && between(pos.top, top - 2, top + 2)) {
             spawnFood();
             setScore(prevScore => prevScore + 1);
         }
@@ -44,11 +55,7 @@ export default function Game() {
 
     useEffect(() => {
         checkPos();
-        console.log(pos.left, pos.top)
     }, [pos]);
-
-    // TEMPORARY SCORE
-    const [score, setScore] = useState(0);
 
     return (
         <GameContainer>
